@@ -20,10 +20,9 @@ static void myGrep(char* pcmd[], int psz)
     {
       strcat(cmd," ");
     }
-
   }
 
-  FILE* f=(FILE*)popen(cmd, "r");
+  FILE* f = (FILE*)popen(cmd, "r");
   if (f==NULL)
   {
     fprintf(stderr,"fopen %s Returned NULL\n", cmd);
@@ -39,7 +38,6 @@ static void myGrep(char* pcmd[], int psz)
     }
     pclose(f);
   }
-
 }
 
 /**
@@ -62,10 +60,9 @@ static void myPS(char* pcmd[], int psz)
     {
       strcat(cmd," ");
     }
-
   }
 
-  FILE* f=(FILE*)popen(cmd, "r");
+  FILE* f = (FILE*)popen(cmd, "r");
   if (f==NULL)
   {
     fprintf(stderr,"fopen %s Returned NULL\n", cmd);
@@ -177,7 +174,7 @@ bool get_args(CmdData* d)
   printf("\n>> "); //prompt
   char* buf = 0;
   size_t ARG_MAX = MAX_ARG;
-  size_t ap, len,  pos = getline(&buf, &ARG_MAX, stdin), cpos = pos;//read
+  size_t ap, len, pos = getline(&buf, &ARG_MAX, stdin), cpos = pos;//read
 
   d->strcmd = (char*) malloc(pos);
   memset(d->strcmd, 0, pos);
@@ -197,6 +194,10 @@ bool get_args(CmdData* d)
 
 /**
  * Retrieves the argument at the specified position
+ *
+ * @param CmdData* cmd
+ * @param int i arg index
+ * @return char* the arg
  */
 char* CmdData_at(CmdData* cmd, int i)
 {
@@ -205,6 +206,11 @@ char* CmdData_at(CmdData* cmd, int i)
 
 /**
  * Retrieves the jth character or the ith argument in the cmd
+ *
+ * @param CmdData* pCmd
+ * @param int i arg index
+ * @param int j arg char index
+ * @return char the char at arg[i][j]
  */
 char CmdData_argat(CmdData* cmd, int i, int j)
 {
@@ -214,6 +220,8 @@ char CmdData_argat(CmdData* cmd, int i, int j)
 
 /**
  * Deallocates memory for CmdData
+ *
+ * @param CmdData** pCmd
  */
 void CmdData_Free(CmdData** pCmd)
 {
@@ -226,6 +234,8 @@ void CmdData_Free(CmdData** pCmd)
 
 /**
  * Initializes CmdData
+ *
+ * @param CmdData** pCmd
  */
 void CmdData_Init(CmdData** pCmd)
 {
@@ -286,8 +296,8 @@ int main(int argc, char* argv[])
   }
   */
 
-  //process accepted commands until user enters q
-  do
+
+  do  //process accepted commands until user enters q
   {
     if(cmd->argc >= 3 && strcmp(cmd->args[0], "grep") == 0)
     {
@@ -321,3 +331,4 @@ int main(int argc, char* argv[])
 
   return 0;
 }
+
