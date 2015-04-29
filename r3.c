@@ -1,16 +1,19 @@
 #include "r3.h"
 
 /**
+ * Executes the grep command
  *
+ * @param char* pcmd[]
+ * @param int psz
  */
 static void myGrep(char* pcmd[], int psz)
 {
   char cmd[MAX_LEN];
-  char line[256];
+  char line[MAX_LEN];
   int i=0;
 
   memset(cmd, 0, MAX_LEN);
-  for(; i<psz; i++)
+  for(;i<psz;i++)
   {
     strcat(cmd,pcmd[i]);
     if(i+1!=psz)
@@ -19,31 +22,36 @@ static void myGrep(char* pcmd[], int psz)
     }
 
   }
-  //const char* cmd= "grep -ri Randy .";
-  FILE* F=(FILE*)popen(cmd, "r");
-  if (F==NULL)
+
+  FILE* f=(FILE*)popen(cmd, "r");
+  if (f==NULL)
   {
     fprintf(stderr,"fopen %s Returned NULL\n", cmd);
   }
   else
   {
-    memset(line,0,256);
-    while(fgets(line,sizeof(line),F))
+    memset(line,0,MAX_LEN);
+    while(fgets(line,sizeof(line),f))
     {
+
       printf("%s", line);
-      memset(line,0,256);
+      memset(line,0,MAX_LEN);
     }
-    pclose(F);
+    pclose(f);
   }
+
 }
 
 /**
+ * Executes ps
  *
+ * @param char* pcmd
+ * @param psz
  */
 static void myPS(char* pcmd[], int psz)
 {
-  char cmd[256];
-  char line[256];
+  char cmd[MAX_LEN];
+  char line[MAX_LEN];
   int i=0;
 
   memset(cmd, 0, MAX_LEN);
@@ -54,32 +62,37 @@ static void myPS(char* pcmd[], int psz)
     {
       strcat(cmd," ");
     }
+
   }
-  //const char* cmd= "grep -ri Randy .";
-  FILE* F=(FILE*)popen(cmd, "r");
-  if (F==NULL)
+
+  FILE* f=(FILE*)popen(cmd, "r");
+  if (f==NULL)
   {
     fprintf(stderr,"fopen %s Returned NULL\n", cmd);
   }
   else
   {
-    memset(line,0,256);
-    while(fgets(line,sizeof(line),F))
+    memset(line,0,MAX_LEN);
+    while(fgets(line,sizeof(line),f))
     {
+
       printf("%s", line);
-      memset(line,0,256);
+      memset(line,0,MAX_LEN);
     }
-    pclose(F);
+    pclose(f);
   }
 }
 
 /**
+ * Implements ls
  *
+ * @param char* pcmd[]
+ * @param int psz
  */
 static void myLS(char* pcmd[], int psz)
 {
-  char cmd [256];
-  char line[256];
+  char cmd [MAX_LEN];
+  char line[MAX_LEN];
   int i=0;
 
   memset(cmd, 0, MAX_LEN);
@@ -90,31 +103,37 @@ static void myLS(char* pcmd[], int psz)
     {
       strcat(cmd," ");
     }
+
   }
-  FILE* F = (FILE*)popen(cmd, "r");
-  if (F==NULL)
+
+  FILE* f = (FILE*)popen(cmd, "r");
+  if (f==NULL)
   {
     fprintf(stderr,"fopen %s Returned NULL\n", cmd);
   }
   else
   {
-    memset(line,0,256);
-    while(fgets(line,sizeof(line),F))
+    memset(line,0,MAX_LEN);
+    while(fgets(line,sizeof(line),f))
     {
+
       printf("%s", line);
-      memset(line,0,256);
+      memset(line,0,MAX_LEN);
     }
-    pclose(F);
+    pclose(f);
   }
 }
 
 /**
+ * Executes diff
  *
+ * @param char* pcmd
+ * int psz
  */
 static void myDiff(char* pcmd[], int psz)
 {
-  char cmd [256];
-  char line[256];
+  char cmd [MAX_LEN];
+  char line[MAX_LEN];
   int i=0;
 
   memset(cmd, 0, MAX_LEN);
@@ -125,26 +144,33 @@ static void myDiff(char* pcmd[], int psz)
     {
       strcat(cmd," ");
     }
+
   }
-  FILE* F = (FILE*)popen(cmd, "r");
-  if (F==NULL)
+
+  FILE* f = (FILE*)popen(cmd, "r");
+  if (f==NULL)
   {
     fprintf(stderr,"fopen %s Returned NULL\n", cmd);
   }
   else
   {
-    memset(line,0,256);
-    while(fgets(line,sizeof(line),F))
+    memset(line,0,MAX_LEN);
+    while(fgets(line,sizeof(line), f))
     {
+
       printf("%s", line);
-      memset(line,0,256);
+      memset(line,0,MAX_LEN);
     }
-    pclose(F);
+    pclose(f);
   }
+
 }
 
 /**
+ * Retrieves command line arguments
  *
+ * @param CmdData* d
+ * @return bool
  */
 bool get_args(CmdData* d)
 {
@@ -234,7 +260,6 @@ int main(int argc, char* argv[])
   //create a new command structure to imitate argc/argv
   CmdData* cmd = CmdData_Create();
   int        i = 1;
-  bool    init = false;
 
   cmd->argc   = argc - 1;                 //ignore program name
   cmd->strcmd = (char*) malloc(MAX_ARG); //allocate a string for using system
@@ -291,8 +316,8 @@ int main(int argc, char* argv[])
   }
   while( get_args(cmd) && strcmp(CmdData_at(cmd, 0),"q"));
 
+
   if(cmd) CmdData_Free(&cmd);
 
   return 0;
 }
-
