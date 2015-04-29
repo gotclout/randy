@@ -4,7 +4,10 @@ DEPS = r3.h sys.h
 OBJ = r3.o sys.o
 
 %.o: %.c $(DEPS)
-»·$(CC) $(CFLAGS) -c -g -o $@ $<
+	$(CC) $(CFLAGS) -c -g -o $@ $<
 
 r3: $(OBJ)
-»·gcc $(CFLAGS) -g -o $@ $^
+	gcc $(CFLAGS) -g -o $@ $^
+
+clean:
+	rm *.o r3
